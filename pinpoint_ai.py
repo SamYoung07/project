@@ -6,9 +6,6 @@ import streamlit as st
 from io import BytesIO
 import datetime
 
-#date = str(datetime.date.today())
-#file = open("chats.txt", "w")
-
 st.title("PINPOINT AI")
 st.write("Your personal AI notetaking assistant")
 
@@ -21,7 +18,9 @@ def convert_heic_to_jpeg(input_stream, output_path):
     heic_image.save(output_path, "JPEG")
     print(f"Converted HEIC to {output_path}")
 
-genai.configure(api_key='AIzaSyDTrfiZeI6nq5S-ZyGyd_1gBTJSrJpZcaE')
+api_key = st.secrets["default"]["API_KEY"]
+
+genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
 # Upload File section
@@ -54,7 +53,7 @@ if st.button("RUN", type="primary"):
 
     # AI CODE
     if uploaded_file:
-        filetype = file_name.split('.')[-1].lower()
+        filetype = file_name.split('.')[-1].lower() #takes last index of the list created from the split string (heic or jpg)
         if filetype == 'heic':
             # Convert HEIC to JPEG
             new_file_name = file_name.replace('.heic', '.jpg')
@@ -69,10 +68,5 @@ if st.button("RUN", type="primary"):
         response = model.generate_content(prompts)
         assistant = response.text
         st.write(assistant)
-        #file.write(f"{date} - {assistant}")
-        #file.close()
     else:
         st.error("No file uploaded.")
-
-#very good version
-#next steps: Currently new resposes replaces old one in the text file instead of being added, fix text file formatting, make front end look better. 
