@@ -4,9 +4,8 @@ import google.generativeai as genai
 import pillow_heif
 import streamlit as st
 from io import BytesIO
-import datetime
 
-st.title("PINPOINT AI")
+st.title("PINPOINT")
 st.write("Your personal AI notetaking assistant")
 
 pillow_heif.register_heif_opener()
