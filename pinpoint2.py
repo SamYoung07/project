@@ -23,9 +23,11 @@ genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
 # Upload File section
-uploaded_file = st.file_uploader("Choose a file")
+uploaded_file = st.file_uploader("Upload an image")
 if uploaded_file:
     file_name = uploaded_file.name
+    left, middle, right = st.columns(3)
+    middle.image(uploaded_file, width = 5000)
 
 # Button Options
 left, middle, right = st.columns(3)
@@ -39,10 +41,10 @@ prompts = ["With the given image, create: "]
 if st.button("RUN", type="primary"):
     if summary:
         options.append("- Summary")
-        prompts.append("A brief summary of what the image says,")
+        prompts.append("A brief summary of the information covered in the image,")
     if notes:
         options.append("- Extra Notes")
-        prompts.append(" 3 extra notes (one sentence each) about the topic covered in the image, ")
+        prompts.append(" 3 extra notes (one sentence each) related to the topic that weren't included, ")
     if practice:
         options.append("- Practice Questions")
         prompts.append(" 2 Practice questions related to the topic.")
