@@ -17,8 +17,8 @@ def convert_heic_to_jpeg(input_stream, output_path):
     heic_image.save(output_path, "JPEG")
     print(f"Converted HEIC to {output_path}")
 
+#AI Setup
 api_key = st.secrets["default"]["API_KEY"]
-
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
@@ -52,22 +52,20 @@ if st.button("RUN", type="primary"):
     for i in options:
         st.write(i)
 
-    # AI CODE
     if uploaded_file:
-        filetype = file_name.split('.')[-1].lower() #takes last index of the list created from the split string (heic or jpg)
+        filetype = file_name.split('.')[-1].lower() # Takes last index of the list created from the split string (heic or jpg)
         if filetype == 'heic':
             # Convert HEIC to JPEG
             new_file_name = file_name.replace('.heic', '.jpg')
             convert_heic_to_jpeg(uploaded_file, new_file_name)
             img = PIL.Image.open(new_file_name)
         else:
-            # Open other file types directly
             img = PIL.Image.open(uploaded_file)
 
         # Append image and generate response
         prompts.append(img)
         response = model.generate_content(prompts)
-        assistant = response.text
-        st.write(assistant)
+        chat = response.text
+        st.write(chat)
     else:
         st.error("No file uploaded.")
