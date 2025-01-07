@@ -1,0 +1,5 @@
+primaryColor = "#43A047"  # Change this to your desired primary color
+backgroundColor = "#E8F5E9"  # Background color of the app
+secondaryBackgroundColor = "#C7E0C7"  # Background color of containers
+textColor = "#2E7D32"  # Color of text
+font = "sans serif"
