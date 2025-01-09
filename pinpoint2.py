@@ -1,3 +1,7 @@
+import firebase_admin
+from firebase_admin import credentials, firestore
+import json
+import tempfile
 import PIL.Image
 from PIL import Image
 import google.generativeai as genai
@@ -7,6 +11,17 @@ from io import BytesIO
 
 st.title("PINPOINT")
 st.write("Your personal AI notetaking assistant")
+subject = st.text_input("What class is this for? ")
+
+# Firebase setup
+firebase_credentials = dict(st.secrets["firebase"])
+
+if not firebase_admin._apps:
+    cred = credentials.Certificate(firebase_credentials)
+    firebase_admin.initialize_app(cred)
+db = firestore.client()
+
+st.write("Firebase successfully initialized!")
 
 pillow_heif.register_heif_opener()
 
@@ -38,7 +53,7 @@ practice = right.checkbox("Practice Questions")
 # Run Button
 options = []
 prompts = ["With the given image, create: "]
-if st.button("RUN", type="primary"):
+if st.button("RUN", type="primary") and (summary or notes or practice):
     if summary:
         options.append("- Summary")
         prompts.append("A brief summary of the information covered in the image,")
@@ -67,5 +82,15 @@ if st.button("RUN", type="primary"):
         response = model.generate_content(prompts)
         chat = response.text
         st.write(chat)
+
+        # Save to Firestore if a subject is specified
+        if subject: 
+            doc_ref = db.collection("ai_responses").add({
+                "file_name": file_name,
+                "response": chat,
+                "class" : subject,
+                "timestamp": firestore.SERVER_TIMESTAMP
+            })
+
     else:
         st.error("No file uploaded.")
