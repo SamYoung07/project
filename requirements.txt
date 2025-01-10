@@ -3,3 +3,4 @@ pillow
 streamlit
 pandas
 pillow-heif
+firebase_admin
