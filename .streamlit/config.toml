@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "lightgreen"
+backgroundColor = "#F1F8E9"  # Light green background
+secondaryBackgroundColor = "#A5D6A7"  # Slightly darker green for the sidebar
+textColor = "#2C6B2F"  # Dark green text color
+font = "sans serif"
