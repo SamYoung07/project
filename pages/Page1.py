@@ -4,6 +4,8 @@ from firebase_admin import credentials, firestore
 import json
 import tempfile
 
+st.set_page_config(page_title = "Previous Responses")
+
 classes = []
 # Firebase setup
 firebase_credentials = dict(st.secrets["firebase"])
@@ -16,7 +18,6 @@ db = firestore.client()
 st.title("Previous Responses")
 
 # Step 1: Fetch unique classes from Firestore
-@st.cache_data
 def get_unique_classes():
     classes = set()
     docs = db.collection("ai_responses").stream() #allows the program to iterate through every entry
@@ -32,7 +33,6 @@ if classes:
     selected_class = st.selectbox("Subjects", options=classes)
     
     # Step 3: Fetch responses for the selected class
-    @st.cache_data
     def get_responses_by_class(selected_class):
         responses = []
         docs = db.collection("ai_responses").stream()
