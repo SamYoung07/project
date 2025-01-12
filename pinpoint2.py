@@ -9,6 +9,8 @@ import pillow_heif
 import streamlit as st
 from io import BytesIO
 
+st.set_page_config(page_title = "PINPOINT", page_icon="📌")
+
 st.title("PINPOINT")
 st.write("Your personal AI notetaking assistant")
 subject = st.text_input("What class is this for? ")
@@ -20,8 +22,6 @@ if not firebase_admin._apps:
     cred = credentials.Certificate(firebase_credentials)
     firebase_admin.initialize_app(cred)
 db = firestore.client()
-
-st.write("Firebase successfully initialized!")
 
 pillow_heif.register_heif_opener()
 
