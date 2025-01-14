@@ -56,13 +56,13 @@ prompts = ["With the given image, create: "]
 if st.button("RUN", type="primary") and (summary or notes or practice):
     if summary:
         options.append("- Summary")
-        prompts.append("A brief summary of the information covered in the image,")
+        prompts.append("A summary of the information covered in the image,")
     if notes:
         options.append("- Extra Notes")
-        prompts.append(" 3 extra notes (one sentence each) related to the topic that weren't included, ")
+        prompts.append(" extra notes related to the topic that weren't included in the image, ")
     if practice:
         options.append("- Practice Questions")
-        prompts.append(" 2 Practice questions related to the topic.")
+        prompts.append(" Practice questions to build skills related to the topic.")
     st.write("Creating: ")
     for i in options:
         st.write(i)
