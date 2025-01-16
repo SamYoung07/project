@@ -17,7 +17,7 @@ db = firestore.client()
 
 st.title("Previous Responses")
 
-# Step 1: Fetch unique classes from Firestore
+#Get classes from Firestore
 def get_unique_classes():
     classes = set()
     docs = db.collection("ai_responses").stream() #allows the program to iterate through every entry
@@ -28,11 +28,11 @@ def get_unique_classes():
 
 classes = get_unique_classes()
 
-# Step 2: Create a dropdown to select a class
+#Create a dropdown to select a class
 if classes:
     selected_class = st.selectbox("Subjects", options=classes)
     
-    # Step 3: Fetch responses for the selected class
+    #Fetch responses for the selected class
     def get_responses_by_class(selected_class):
         responses = []
         docs = db.collection("ai_responses").stream()
@@ -47,7 +47,7 @@ if classes:
 
     responses = get_responses_by_class(selected_class)
 
-    # Step 4: Display responses
+    #Display responses
     if responses:
         st.write(f"Responses for {selected_class}")
         for response in responses:
